@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Orders</h2>
+
+<a href="/orders/add">➕ Create Order</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for o in orders %}
+    <tr>
+        <td>{{ o.order_id }}</td>
+        <td>{{ o.customer_id }}</td>
+        <td>{{ o.order_date }}</td>
+        <td>{{ o.status }}</td>
+        <td>
+            <a href="/orders/{{ o.order_id }}">🔍 View</a> |
+            <a href="/orders/delete/{{ o.order_id }}" onclick="return confirm('Delete order?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

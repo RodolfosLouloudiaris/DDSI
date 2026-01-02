@@ -35,7 +35,6 @@ from models.shipping import (
     update_shipping,
     delete_shipping
 )
-#from models.order import get_all_orders   # minimal stub if needed
 from models.stock import (
     get_all_stock_movements,
     get_stock_movement_by_id,
@@ -50,7 +49,12 @@ from models.review import (
     update_review,
     delete_review
 )
-
+from models.order import (
+    get_all_orders,
+    create_order_with_items,
+    get_order,
+    delete_order
+)
 
 app = Flask(__name__)
 
@@ -439,6 +443,66 @@ def review_delete(review_id):
     delete_review(review_id)
     return redirect("/reviews")
 
+
+# ==========================================
+# LIST ORDER
+# ==========================================
+@app.route("/orders")
+def orders():
+    items = get_all_orders()
+    return render_template("orders/list.html", orders=items)
+
+
+# ==========================================
+# ADD ORDER
+# ==========================================
+@app.route("/orders/add", methods=["GET", "POST"])
+def orders_add():
+    products = get_all_products()
+    customers = get_all_customers()
+
+    if request.method == "POST":
+        customer_id = int(request.form["customer_id"])
+        product_ids = request.form.getlist("product_id[]")
+        quantities = request.form.getlist("quantity[]")
+        prices = request.form.getlist("price[]")
+
+        if not product_ids:
+            return "No order items submitted. Click 'Add Item' first.", 400
+
+        items = []
+        for pid, qty, price in zip(product_ids, quantities, prices):
+            if isinstance(pid, list): pid = pid[0]
+            if isinstance(qty, list): qty = qty[0]
+            if isinstance(price, list): price = price[0]
+
+            items.append({
+                "product_id": int(pid),
+                "quantity": int(qty),
+                "unit_price": float(price)
+            })
+
+        order_id = create_order_with_items(customer_id, items)
+        return redirect(f"/orders/{order_id}")
+
+    return render_template("orders/add.html", products=products, customers=customers)
+
+
+# ==========================================
+# DETAIL ORDER
+# ==========================================
+@app.route("/orders/<int:order_id>")
+def order_detail(order_id):
+    order = get_order(order_id)
+    return render_template("orders/detail.html", order=order)
+
+# ==========================================
+# DELETE ORDER
+# ==========================================
+@app.route("/orders/delete/<int:order_id>")
+def order_delete(order_id):
+    delete_order(order_id)
+    return redirect("/orders")
 
 
 if __name__ == "__main__":
