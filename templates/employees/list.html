@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Employees</h2>
+
+<a href="/employees/add">➕ Add Employee</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for e in employees %}
+    <tr>
+        <td>{{ e.employee_id }}</td>
+        <td>{{ e.first_name }} {{ e.last_name }}</td>
+        <td>{{ e.role }}</td>
+        <td>
+            <a href="/employees/edit/{{ e.employee_id }}">✏ Edit</a> |
+            <a href="/employees/delete/{{ e.employee_id }}" onclick="return confirm('Delete employee?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

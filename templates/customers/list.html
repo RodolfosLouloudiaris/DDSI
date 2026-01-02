@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Customers</h2>
+
+<a href="/customers/add">➕ Add Customer</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for c in customers %}
+    <tr>
+        <td>{{ c.customer_id }}</td>
+        <td>{{ c.first_name }} {{ c.last_name }}</td>
+        <td>{{ c.email }}</td>
+        <td>{{ c.phone }}</td>
+        <td>
+            <a href="/customers/edit/{{ c.customer_id }}">✏ Edit</a> |
+            <a href="/customers/delete/{{ c.customer_id }}" onclick="return confirm('Delete customer?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

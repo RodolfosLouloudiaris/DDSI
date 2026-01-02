@@ -4,12 +4,20 @@
     <title>Online Shop Demo</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
+
 <body>
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/products">Products</a>
-    </nav>
-    <hr>
+
+<header style="padding: 10px; background: #333; color: #fff;">
+    <a href="/" style="color:white; margin-right:20px; text-decoration:none;">🏠 Dashboard</a>
+    <a href="/products" style="color:white; margin-right:20px; text-decoration:none;">Products</a>
+    <a href="/customers" style="color:white; margin-right:20px; text-decoration:none;">Customers</a>
+    <a href="/categories" style="color:white; margin-right:20px; text-decoration:none;">Categories</a>
+    <a href="/orders" style="color:white; margin-right:20px; text-decoration:none;">Orders</a>
+</header>
+
+<div style="padding: 20px;">
     {% block content %}{% endblock %}
+</div>
+
 </body>
 </html>

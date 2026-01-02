@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Stock Movement</h2>
+
+<form method="post">
+
+    <label>Product:</label><br>
+    <select name="product_id">
+        {% for p in products %}
+            <option value="{{ p.product_id }}"
+                {% if p.product_id == movement.product_id %}selected{% endif %}>
+                {{ p.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Employee:</label><br>
+    <select name="employee_id">
+        {% for e in employees %}
+            <option value="{{ e.employee_id }}"
+                {% if e.employee_id == movement.employee_id %}selected{% endif %}>
+                {{ e.first_name }} {{ e.last_name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Quantity:</label><br>
+    <input type="number" name="quantity" value="{{ movement.quantity }}" required><br><br>
+
+    <label>Reason:</label><br>
+    <input name="reason" value="{{ movement.reason }}"><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

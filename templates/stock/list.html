@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Stock Movements</h2>
+
+<a href="/stock/add">➕ Add Movement</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Employee</th>
+        <th>Quantity</th>
+        <th>Time</th>
+        <th>Reason</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for m in movements %}
+    <tr>
+        <td>{{ m.movement_id }}</td>
+        <td>{{ m.product_id }}</td>
+        <td>{{ m.employee_id }}</td>
+        <td>{{ m.quantity }}</td>
+        <td>{{ m.movement_time }}</td>
+        <td>{{ m.reason }}</td>
+        <td>
+            <a href="/stock/edit/{{ m.movement_id }}">✏ Edit</a> |
+            <a href="/stock/delete/{{ m.movement_id }}" onclick="return confirm('Delete movement?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -7,6 +7,50 @@ from models.product import (
     update_product,
     delete_product
 )
+from models.category import (
+    get_all_categories,
+    get_category_by_id,
+    add_category,
+    update_category,
+    delete_category
+)
+from models.customer import (
+    get_all_customers,
+    get_customer_by_id,
+    add_customer,
+    update_customer,
+    delete_customer
+)
+from models.employee import (
+    get_all_employees,
+    get_employee_by_id,
+    add_employee,
+    update_employee,
+    delete_employee
+)
+from models.shipping import (
+    get_all_shipping,
+    get_shipping_by_id,
+    add_shipping,
+    update_shipping,
+    delete_shipping
+)
+#from models.order import get_all_orders   # minimal stub if needed
+from models.stock import (
+    get_all_stock_movements,
+    get_stock_movement_by_id,
+    add_stock_movement,
+    update_stock_movement,
+    delete_stock_movement
+)
+from models.review import (
+    get_all_reviews,
+    get_review_by_id,
+    add_review,
+    update_review,
+    delete_review
+)
+
 
 app = Flask(__name__)
 
@@ -15,7 +59,7 @@ app = Flask(__name__)
 # ===========================
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("dashboard.html")
 
 # ===========================
 # LIST ALL PRODUCTS
@@ -70,6 +114,333 @@ def product_delete(product_id):
     return redirect("/products")
 
 
+# ======================================
+# LIST CATEGORIES
+# ======================================
+@app.route("/categories")
+def categories():
+    items = get_all_categories()
+    return render_template("categories/list.html", categories=items)
+
+# ======================================
+# ADD CATEGORY
+# ======================================
+@app.route("/categories/add", methods=["GET", "POST"])
+def category_add():
+    if request.method == "POST":
+        name = request.form["name"]
+        add_category(name)
+        return redirect("/categories")
+    return render_template("categories/add.html")
+
+# ======================================
+# EDIT CATEGORY
+# ======================================
+@app.route("/categories/edit/<int:category_id>", methods=["GET", "POST"])
+def category_edit(category_id):
+    category = get_category_by_id(category_id)
+
+    if request.method == "POST":
+        new_name = request.form["name"]
+        update_category(category_id, new_name)
+        return redirect("/categories")
+
+    return render_template("categories/edit.html", category=category)
+
+# ======================================
+# DELETE CATEGORY
+# ======================================
+@app.route("/categories/delete/<int:category_id>")
+def category_delete(category_id):
+    delete_category(category_id)
+    return redirect("/categories")
+
+
+# ==========================================
+# LIST CUSTOMERS
+# ==========================================
+@app.route("/customers")
+def customers():
+    all_customers = get_all_customers()
+    return render_template("customers/list.html", customers=all_customers)
+
+# ==========================================
+# ADD CUSTOMER
+# ==========================================
+@app.route("/customers/add", methods=["GET", "POST"])
+def customer_add():
+    if request.method == "POST":
+        add_customer(
+            request.form["first_name"],
+            request.form["last_name"],
+            request.form["email"],
+            request.form.get("phone"),
+            request.form.get("address")
+        )
+        return redirect("/customers")
+
+    return render_template("customers/add.html")
+
+# ==========================================
+# EDIT CUSTOMER
+# ==========================================
+@app.route("/customers/edit/<int:customer_id>", methods=["GET", "POST"])
+def customer_edit(customer_id):
+    customer = get_customer_by_id(customer_id)
+
+    if request.method == "POST":
+        update_customer(
+            customer_id,
+            request.form["first_name"],
+            request.form["last_name"],
+            request.form["email"],
+            request.form.get("phone"),
+            request.form.get("address")
+        )
+        return redirect("/customers")
+
+    return render_template("customers/edit.html", customer=customer)
+
+# ==========================================
+# DELETE CUSTOMER
+# ==========================================
+@app.route("/customers/delete/<int:customer_id>")
+def customer_delete(customer_id):
+    try:
+        delete_customer(customer_id)
+    except Exception:
+        # optional: show a friendly error
+        print("Cannot delete customer — existing orders.")
+    return redirect("/customers")
+
+# ==========================================
+# LIST EMPLOYEES
+# ==========================================
+@app.route("/employees")
+def employees():
+    items = get_all_employees()
+    return render_template("employees/list.html", employees=items)
+
+# ==========================================
+# ADD EMPLOYEE
+# ==========================================
+@app.route("/employees/add", methods=["GET", "POST"])
+def employee_add():
+    if request.method == "POST":
+        add_employee(
+            request.form["first_name"],
+            request.form["last_name"],
+            request.form.get("role")
+        )
+        return redirect("/employees")
+
+    return render_template("employees/add.html")
+
+# ==========================================
+# EDIT EMPLOYEE
+# ==========================================
+@app.route("/employees/edit/<int:employee_id>", methods=["GET", "POST"])
+def employee_edit(employee_id):
+    emp = get_employee_by_id(employee_id)
+
+    if request.method == "POST":
+        update_employee(
+            employee_id,
+            request.form["first_name"],
+            request.form["last_name"],
+            request.form.get("role")
+        )
+        return redirect("/employees")
+
+    return render_template("employees/edit.html", employee=emp)
+
+# ==========================================
+# DELETE EMPLOYEE
+# ==========================================
+@app.route("/employees/delete/<int:employee_id>")
+def employee_delete(employee_id):
+    delete_employee(employee_id)
+    return redirect("/employees")
+
+# ==========================================
+# LIST SHIPPING ENTRIES
+# ==========================================
+@app.route("/shipping")
+def shipping():
+    items = get_all_shipping()
+    return render_template("shipping/list.html", shipping=items)
+
+# ==========================================
+# ADD SHIPPING
+# ==========================================
+@app.route("/shipping/add", methods=["GET", "POST"])
+def shipping_add():
+    employees = get_all_employees()
+    orders = get_all_orders()     # minimal order list
+
+    if request.method == "POST":
+        add_shipping(
+            request.form["order_id"],
+            request.form["employee_id"],
+            request.form.get("shipped_at"),
+            request.form.get("delivery_date"),
+            request.form.get("tracking_code")
+        )
+        return redirect("/shipping")
+
+    return render_template("shipping/add.html", employees=employees, orders=orders)
+
+# ==========================================
+# EDIT SHIPPING ENTRY
+# ==========================================
+@app.route("/shipping/edit/<int:shipping_id>", methods=["GET", "POST"])
+def shipping_edit(shipping_id):
+    entry = get_shipping_by_id(shipping_id)
+    employees = get_all_employees()
+    orders = get_all_orders()
+
+    if request.method == "POST":
+        update_shipping(
+            shipping_id,
+            request.form["order_id"],
+            request.form["employee_id"],
+            request.form.get("shipped_at"),
+            request.form.get("delivery_date"),
+            request.form.get("tracking_code")
+        )
+        return redirect("/shipping")
+
+    return render_template("shipping/edit.html", shipping=entry, employees=employees, orders=orders)
+
+# ==========================================
+# DELETE SHIPPING ENTRY
+# ==========================================
+@app.route("/shipping/delete/<int:shipping_id>")
+def shipping_delete(shipping_id):
+    delete_shipping(shipping_id)
+    return redirect("/shipping")
+
+
+# ==========================================
+# LIST STOCK MOVEMENTS
+# ==========================================
+@app.route("/stock")
+def stock():
+    items = get_all_stock_movements()
+    return render_template("stock/list.html", movements=items)
+
+# ==========================================
+# ADD STOCK MOVEMENT
+# ==========================================
+@app.route("/stock/add", methods=["GET", "POST"])
+def stock_add():
+    products = get_all_products()
+    employees = get_all_employees()
+
+    if request.method == "POST":
+        add_stock_movement(
+            request.form["product_id"],
+            request.form["employee_id"],
+            request.form["quantity"],
+            request.form.get("reason")
+        )
+        return redirect("/stock")
+
+    return render_template("stock/add.html", products=products, employees=employees)
+
+# ==========================================
+# EDIT STOCK MOVEMENT
+# ==========================================
+@app.route("/stock/edit/<int:movement_id>", methods=["GET", "POST"])
+def stock_edit(movement_id):
+    movement = get_stock_movement_by_id(movement_id)
+    products = get_all_products()
+    employees = get_all_employees()
+
+    if request.method == "POST":
+        update_stock_movement(
+            movement_id,
+            request.form["product_id"],
+            request.form["employee_id"],
+            request.form["quantity"],
+            request.form.get("reason")
+        )
+        return redirect("/stock")
+
+    return render_template(
+        "stock/edit.html",
+        movement=movement,
+        products=products,
+        employees=employees
+    )
+
+# ==========================================
+# DELETE STOCK MOVEMENT
+# ==========================================
+@app.route("/stock/delete/<int:movement_id>")
+def stock_delete(movement_id):
+    delete_stock_movement(movement_id)
+    return redirect("/stock")
+
+
+# ==========================================
+# LIST REVIEWS
+# ==========================================
+@app.route("/reviews")
+def reviews():
+    items = get_all_reviews()
+    return render_template("reviews/list.html", reviews=items)
+
+# ==========================================
+# ADD REVIEW
+# ==========================================
+@app.route("/reviews/add", methods=["GET", "POST"])
+def review_add():
+    products = get_all_products()
+    customers = get_all_customers()
+
+    if request.method == "POST":
+        add_review(
+            request.form["product_id"],
+            request.form["customer_id"],
+            request.form["rating"],
+            request.form.get("comment")
+        )
+        return redirect("/reviews")
+
+    return render_template("reviews/add.html", products=products, customers=customers)
+
+# ==========================================
+# EDIT REVIEW
+# ==========================================
+@app.route("/reviews/edit/<int:review_id>", methods=["GET", "POST"])
+def review_edit(review_id):
+    r = get_review_by_id(review_id)
+    products = get_all_products()
+    customers = get_all_customers()
+
+    if request.method == "POST":
+        update_review(
+            review_id,
+            request.form["product_id"],
+            request.form["customer_id"],
+            request.form["rating"],
+            request.form.get("comment")
+        )
+        return redirect("/reviews")
+
+    return render_template("reviews/edit.html", review=r, products=products, customers=customers)
+
+# ==========================================
+# DELETE REVIEW
+# ==========================================
+@app.route("/reviews/delete/<int:review_id>")
+def review_delete(review_id):
+    delete_review(review_id)
+    return redirect("/reviews")
+
+
+
 if __name__ == "__main__":
     init_pool()
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)

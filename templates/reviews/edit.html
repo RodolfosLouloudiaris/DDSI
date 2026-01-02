@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Review</h2>
+
+<form method="post">
+
+    <label>Product:</label><br>
+    <select name="product_id">
+        {% for p in products %}
+            <option value="{{ p.product_id }}" {% if p.product_id == review.product_id %}selected{% endif %}>
+                {{ p.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Customer:</label><br>
+    <select name="customer_id">
+        {% for c in customers %}
+            <option value="{{ c.customer_id }}" {% if c.customer_id == review.customer_id %}selected{% endif %}>
+                {{ c.first_name }} {{ c.last_name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Rating:</label><br>
+    <input type="number" name="rating" min="1" max="5" value="{{ review.rating }}" required><br><br>
+
+    <label>Comment:</label><br>
+    <textarea name="comment">{{ review.comment }}</textarea><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

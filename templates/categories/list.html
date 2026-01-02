@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Categories</h2>
+
+<a href="/categories/add">➕ Add Category</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for c in categories %}
+    <tr>
+        <td>{{ c.category_id }}</td>
+        <td>{{ c.name }}</td>
+        <td>
+            <a href="/categories/edit/{{ c.category_id }}">✏ Edit</a> |
+            <a href="/categories/delete/{{ c.category_id }}" onclick="return confirm('Delete this category?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

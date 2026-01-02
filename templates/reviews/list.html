@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Reviews</h2>
+
+<a href="/reviews/add">➕ Add Review</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>Customer</th>
+        <th>Rating</th>
+        <th>Comment</th>
+        <th>Created</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for r in reviews %}
+    <tr>
+        <td>{{ r.review_id }}</td>
+        <td>{{ r.product_id }}</td>
+        <td>{{ r.customer_id }}</td>
+        <td>{{ r.rating }}</td>
+        <td>{{ r.comment }}</td>
+        <td>{{ r.created_at }}</td>
+        <td>
+            <a href="/reviews/edit/{{ r.review_id }}">✏ Edit</a> |
+            <a href="/reviews/delete/{{ r.review_id }}" onclick="return confirm('Delete review?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

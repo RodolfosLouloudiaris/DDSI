@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add Employee</h2>
+
+<form method="post">
+    <label>First Name:</label><br>
+    <input name="first_name" required><br><br>
+
+    <label>Last Name:</label><br>
+    <input name="last_name" required><br><br>
+
+    <label>Role:</label><br>
+    <input name="role"><br><br>
+
+    <button type="submit">Add Employee</button>
+</form>
+
+{% endblock %}

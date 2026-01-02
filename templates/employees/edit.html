@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Employee</h2>
+
+<form method="post">
+    <label>First Name:</label><br>
+    <input name="first_name" value="{{ employee.first_name }}" required><br><br>
+
+    <label>Last Name:</label><br>
+    <input name="last_name" value="{{ employee.last_name }}" required><br><br>
+
+    <label>Role:</label><br>
+    <input name="role" value="{{ employee.role }}"><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

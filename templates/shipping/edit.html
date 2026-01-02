@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Shipping Entry</h2>
+
+<form method="post">
+
+    <label>Order ID:</label><br>
+    <select name="order_id" required>
+        {% for o in orders %}
+            <option value="{{ o.order_id }}" {% if o.order_id == shipping.order_id %}selected{% endif %}>
+                {{ o.order_id }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Employee:</label><br>
+    <select name="employee_id" required>
+        {% for e in employees %}
+            <option value="{{ e.employee_id }}" {% if e.employee_id == shipping.employee_id %}selected{% endif %}>
+                {{ e.first_name }} {{ e.last_name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Shipped At:</label><br>
+    <input type="datetime-local" name="shipped_at"><br><br>
+
+    <label>Delivery Date:</label><br>
+    <input type="datetime-local" name="delivery_date"><br><br>
+
+    <label>Tracking Code:</label><br>
+    <input name="tracking_code" value="{{ shipping.tracking_code }}"><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}
