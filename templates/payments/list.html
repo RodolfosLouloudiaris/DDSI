@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Payments</h2>
+
+<a href="/payments/add">➕ Add Payment</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Order</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Paid At</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for p in payments %}
+    <tr>
+        <td>{{ p.payment_id }}</td>
+        <td><a href="/orders/{{ p.order_id }}">{{ p.order_id }}</a></td>
+        <td>{{ p.amount }}</td>
+        <td>{{ p.method }}</td>
+        <td>{{ p.paid_at }}</td>
+        <td>
+            <a href="/payments/edit/{{ p.payment_id }}">✏ Edit</a> |
+            <a href="/payments/delete/{{ p.payment_id }}" onclick="return confirm('Delete payment?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

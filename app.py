@@ -55,6 +55,14 @@ from models.order import (
     get_order,
     delete_order
 )
+from models.payment import (
+    get_all_payments,
+    get_payment_by_id,
+    add_payment,
+    update_payment,
+    delete_payment,
+    get_unpaid_orders
+)
 
 app = Flask(__name__)
 
@@ -503,6 +511,57 @@ def order_detail(order_id):
 def order_delete(order_id):
     delete_order(order_id)
     return redirect("/orders")
+
+# ==========================================
+# LIST PAYMENTS
+# ==========================================
+@app.route("/payments")
+def payments():
+    items = get_all_payments()
+    return render_template("payments/list.html", payments=items)
+
+# ==========================================
+# ADD PAYMENT
+# ==========================================
+@app.route("/payments/add", methods=["GET", "POST"])
+def payment_add():
+    unpaid_orders = get_unpaid_orders()
+
+    if request.method == "POST":
+        add_payment(
+            request.form["order_id"],
+            request.form["amount"],
+            request.form["method"]
+        )
+        return redirect("/payments")
+
+    return render_template("payments/add.html", unpaid_orders=unpaid_orders)
+
+# ==========================================
+# EDIT PAYMENT
+# ==========================================
+@app.route("/payments/edit/<int:payment_id>", methods=["GET", "POST"])
+def payment_edit(payment_id):
+    pay = get_payment_by_id(payment_id)
+
+    if request.method == "POST":
+        update_payment(
+            payment_id,
+            request.form["amount"],
+            request.form["method"]
+        )
+        return redirect("/payments")
+
+    return render_template("payments/edit.html", payment=pay)
+
+# ==========================================
+# DELETE PAYMENT
+# ==========================================
+@app.route("/payments/delete/<int:payment_id>")
+def payment_delete(payment_id):
+    delete_payment(payment_id)
+    return redirect("/payments")
+
 
 
 if __name__ == "__main__":
