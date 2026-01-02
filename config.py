@@ -1,0 +1,7 @@
+#ORACLE_DSN = "oracle0.ugr.es:1521/practbd"
+#ORACLE_USER = "x9R34719"
+#ORACLE_PASSWORD = "x9R34719"
+
+ORACLE_DSN = "localhost:1521/FREEPDB1"
+ORACLE_USER = "system"
+ORACLE_PASSWORD = "YourStrongPwd123"

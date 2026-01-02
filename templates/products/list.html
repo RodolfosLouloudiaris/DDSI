@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Products</h2>
+
+<a href="/products/add">➕ Add Product</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th>
+    </tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p.product_id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price }} €</td>
+        <td>{{ p.stock_quantity }}</td>
+        <td>
+            <a href="/products/edit/{{ p.product_id }}">✏ Edit</a> |
+            <a href="/products/delete/{{ p.product_id }}" onclick="return confirm('Delete product?');">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
