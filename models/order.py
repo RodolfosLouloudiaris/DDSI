@@ -1,6 +1,114 @@
 from db import get_connection
 import oracledb
 
+
+def create_order_checkout(customer_id, cart_items, status="pending", create_payment=False, payment_method="card"):
+    """
+    cart_items: list of dicts: [{"product_id": int, "quantity": int}, ...]
+    - Fetches product prices from DB (prevents tampering)
+    - Inserts order + items
+    - Decreases stock
+    - Creates shipping row
+    - Optionally creates payment row
+    """
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        # 1) Create order and get id
+        oid = cur.var(oracledb.NUMBER, arraysize=1)
+        cur.execute("""
+            INSERT INTO CustomerOrder (customer_id, status)
+            VALUES (:cid, :status)
+            RETURNING order_id INTO :oid
+        """, {"cid": int(customer_id), "status": status, "oid": oid})
+
+        order_id = oid.getvalue()
+        if isinstance(order_id, list):
+            order_id = order_id[0]
+        order_id = int(order_id)
+
+        # 2) For each item: validate stock + get current price from DB
+        order_items = []
+        total = 0.0
+
+        for it in cart_items:
+            pid = int(it["product_id"])
+            qty = int(it["quantity"])
+
+            # lock row to prevent overselling in concurrent sessions
+            cur.execute("""
+                SELECT price, stock_quantity
+                FROM Product
+                WHERE product_id = :pid
+                FOR UPDATE
+            """, {"pid": pid})
+
+            row = cur.fetchone()
+            if not row:
+                raise ValueError(f"Product {pid} not found")
+
+            price, stock_qty = float(row[0]), int(row[1])
+
+            if qty <= 0:
+                raise ValueError("Quantity must be > 0")
+
+            if stock_qty < qty:
+                raise ValueError(f"Not enough stock for product {pid}. Have {stock_qty}, need {qty}.")
+
+            order_items.append({
+                "oid": order_id,
+                "pid": pid,
+                "qty": qty,
+                "price": price
+            })
+
+            total += price * qty
+
+            # reduce stock
+            cur.execute("""
+                UPDATE Product
+                SET stock_quantity = stock_quantity - :qty
+                WHERE product_id = :pid
+            """, {"qty": qty, "pid": pid})
+
+        # 3) Insert order items
+        cur.executemany("""
+            INSERT INTO OrderItem (order_id, product_id, quantity, unit_price)
+            VALUES (:oid, :pid, :qty, :price)
+        """, order_items)
+
+        # 4) Create shipping row (needs employee_id in your schema -> assign a default employee)
+        # Make sure employee_id=1 exists (create a "System" employee in admin if needed)
+        cur.execute("""
+            INSERT INTO Shipping (order_id, employee_id)
+            VALUES (:oid, :eid)
+        """, {"oid": order_id, "eid": 1})
+
+        # 5) Optional: create payment (1:1)
+        if create_payment:
+            cur.execute("""
+                INSERT INTO Payment (order_id, amount, method)
+                VALUES (:oid, :amount, :method)
+            """, {"oid": order_id, "amount": total, "method": payment_method})
+
+            # also update order status
+            cur.execute("""
+                UPDATE CustomerOrder
+                SET status = 'paid'
+                WHERE order_id = :oid
+            """, {"oid": order_id})
+
+        conn.commit()
+        return order_id
+
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        cur.close()
+        conn.close()
+
 # ============================
 # GET ALL ORDERS
 # ============================

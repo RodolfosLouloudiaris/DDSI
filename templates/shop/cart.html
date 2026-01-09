@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>🧺 Cart</h2>
+
+{% if not items %}
+  <p>Cart is empty. <a href="/shop">Go shopping</a></p>
+{% else %}
+<form method="post" action="/cart/update">
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Qty</th>
+      <th>Subtotal</th>
+    </tr>
+    {% for it in items %}
+    <tr>
+      <td>{{ it.product.name }}</td>
+      <td>{{ it.product.price }}</td>
+      <td>
+        <input type="number" min="0" name="qty_{{ it.product.product_id }}" value="{{ it.qty }}">
+      </td>
+      <td>{{ it.subtotal }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h3>Total: {{ total }}</h3>
+
+  <button type="submit">Update cart</button>
+</form>
+
+<form method="post" action="/cart/clear" style="margin-top:10px;">
+  <button type="submit">Clear cart</button>
+</form>
+
+<br>
+<a href="/checkout">✅ Checkout</a> | <a href="/shop">Continue shopping</a>
+{% endif %}
+
+{% endblock %}

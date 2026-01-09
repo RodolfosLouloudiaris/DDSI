@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>🛍 Shop</h2>
+
+<form method="get" action="/shop">
+  <label>Category:</label>
+  <select name="category_id" onchange="this.form.submit()">
+    <option value="">All</option>
+    {% for c in categories %}
+      <option value="{{ c.category_id }}" {% if request.args.get('category_id') == (c.category_id|string) %}selected{% endif %}>
+        {{ c.name }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+<br>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Stock</th>
+    <th></th>
+  </tr>
+
+  {% for p in products %}
+  <tr>
+    <td>{{ p.name }}</td>
+    <td>{{ p.price }}</td>
+    <td>{{ p.stock_quantity }}</td>
+    <td>
+      {% if p.stock_quantity > 0 %}
+      <form method="post" action="/cart/add/{{ p.product_id }}">
+        <button type="submit">Add to cart</button>
+      </form>
+      {% else %}
+        Out of stock
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br>
+<a href="/cart">🧺 Go to cart</a>
+
+{% endblock %}
