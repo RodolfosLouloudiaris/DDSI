@@ -1,0 +1,2 @@
+#here im gonna add the code for everything that has to do with transactions (read and write to the messages, chat or whatever table)
+#this is about the client SENDING messages and the employee RECEIVING a list of the messages received by each client
