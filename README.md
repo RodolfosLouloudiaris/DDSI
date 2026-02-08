@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DDSI-OnlineShop Management System (Flask + Oracle)
 
 This project is a **full-stack online shop management system** built with **Python (Flask)** and an **Oracle relational database**.
@@ -159,3 +160,7 @@ This prevents:
 ## 📜 License
 
 Educational project — free to use for learning and academic purposes.
+=======
+# DDSI
+Repo for the DDSI RODI Shopping Web Service
+>>>>>>> 99a1e18b6529c0c4d9b265a7a45ffd9baf2395e6
