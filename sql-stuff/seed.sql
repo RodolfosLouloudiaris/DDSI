@@ -129,10 +129,10 @@ VALUES (5, 3, -2, 'Damaged during transport');
 -- REVIEW
 ------------------------------------------------------------
 INSERT INTO Review (product_id, customer_id, rating, review_comment)
-VALUES (1, 1, 5, 'Amazing smartphone! Very fast and great display.');
+VALUES (1, 1, 5, 'Amazing shirt! Very pretty.');
 
 INSERT INTO Review (product_id, customer_id, rating, review_comment)
-VALUES (3, 1, 4, 'Good quality T-shirts, nice fit.');
+VALUES (3, 1, 4, 'Good quality T-shirts.');
 
 INSERT INTO Review (product_id, customer_id, rating, review_comment)
 VALUES (2, 2, 3, 'Sound quality is good, but battery life could be better.');

@@ -678,6 +678,68 @@ def checkout():
     return render_template("shop/checkout.html", customers=customers, summary=summary, total=total)
 
 
+
+#====================================================#
+#====================================================#
+
+
+
+# Customer Service endpoints
+@app.route("/customerService/list_reviews")
+def list_reviews():
+
+    return render_template("customerService/list-reviews.html")
+
+
+@app.route("/customerService/list_clients")
+def list_clients():
+    return render_template("customerService/list-clients.html")
+
+
+@app.route("/customerService/list_client_complaints")
+def list_client_complaints():
+    return render_template("customerService/list-client-complaints.html")
+
+@app.route("/customerService/read_chat_logs")
+def read_chat_logs():
+    return render_template("customerService/read-chat-logs.html")
+
+## here for the human resources
+
+@app.route("/humanResources/add_employee")
+def add_employee():
+    return render_template("humanResources/add-employee.html")
+
+@app.route("/humanResources/remove_employee")
+def remove_employee():
+    return render_template("humanResources/remove-employee.html")
+@app.route("/humanResources/list_complaints")
+def list_complaints():
+    return render_template("customerService/list-complaints.html")
+
+@app.route("/humanResources/list_employees")
+def list_employees():
+    return render_template("humanResources/list-employees.html")
+##here stock and shipping
+
+
+#here for the clients
+
+@app.route("/customer/send_message")
+def customer_service():
+    return render_template("customer/send_message.html")
+
+@app.route("/customer/make_order")
+def customer_make_order():
+    return render_template("customer/make-order.html")
+
+
+ # add more endpoints later
+
+  
+# here for the accounting
+
+
 if __name__ == "__main__":
     init_pool()
     app.run(debug=True, use_reloader=False)
