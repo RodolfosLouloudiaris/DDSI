@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Human Resources Department</h2>
+<p>Welcome! Choose an action</p>
+
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fafafa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.2s;
+}
+
+.card:hover {
+    background: #f0f0f0;
+    transform: translateY(-3px);
+}
+
+.card a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <a href="/RF5">RF4.1</a>
+        <p>Add new employee</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF6">RF4.2</a>
+        <p>Remove employee</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF7">RF4.3</a>
+        <p>view list of employees</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF8">RF4.4</a>
+        <p>View list of employees' complaints</p>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Accounting Department</h2>
+<p>Welcome! Choose an action</p>
+
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fafafa;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.2s;
+}
+
+.card:hover {
+    background: #f0f0f0;
+    transform: translateY(-3px);
+}
+
+.card a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <a href="/RF1">RF1</a>
+        <p>Functional Requirement 1</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF2">RF2</a>
+        <p>Functional Requirement 2</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF3">RF3</a>
+        <p>Functional Requirement 3</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF4">RF4</a>
+        <p>Functional Requirement 4</p>
+    </div>
+
+
+    <div class="card">
+        <a href="/RF5">RF5</a>
+        <p>Functional Requirement 5</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF6">RF6</a>
+        <p>Functional Requirement 6</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF7">RF7</a>
+        <p>Functional Requirement 7</p>
+    </div>
+
+    <div class="card">
+        <a href="/RF8">RF8</a>
+        <p>Functional Requirement 8</p>
+    </div>
+
+  
+
+</div>
+
+{% endblock %}
