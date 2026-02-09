@@ -31,7 +31,7 @@ def payment_add():
         )
 
 
-        return redirect("/list_payments")
+        return redirect("/accounting/list_payments")
 
     return render_template("accounting/add_payment.html", unpaid_orders=unpaid_orders)
 
@@ -48,7 +48,7 @@ def payment_edit(payment_id):
             request.form["amount"],
             request.form["method"]
         )
-        return redirect("/list_payments")
+        return redirect("/accounting/list_payments")
 
     return render_template("accounting/edit_payment.html", payment=pay)
 
@@ -58,4 +58,4 @@ def payment_edit(payment_id):
 @accounting_bp.route("/delete_payment<int:payment_id>")
 def payment_delete(payment_id):
     delete_payment(payment_id)
-    return redirect("/list_payments")
+    return redirect("/accounting/ist_payments")

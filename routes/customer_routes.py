@@ -14,6 +14,8 @@ from models.order import (
 
 from models.category import  get_all_categories
 
+##removed code had written twice. This might be a
+
 #it should be running. If not check if the routes are correct and serve the correct purpose
 customer_bp = Blueprint("customer", __name__)
 
@@ -82,20 +84,20 @@ def cart_update():
             if qty > 0:
                 cart[pid] = qty
     save_cart(cart)
-    return redirect("/cart")
+    return redirect("/customer/cart")
 
 
 @customer_bp.route("/cart/clear", methods=["POST"])
 def cart_clear():
     save_cart({})
-    return redirect("/cart")
+    return redirect("/customer/cart")
 
 
 @customer_bp.route("/checkout", methods=["GET", "POST"])
 def checkout():
     cart = get_cart()
     if not cart:
-        return redirect("/shop")
+        return redirect("/customer/shop")
 
     customers = get_all_customers()
 
@@ -116,7 +118,8 @@ def checkout():
         )
 
         save_cart({})
-        return redirect(f"/orders/{order_id}")  # reuse your admin order detail page
+        
+        return redirect(f"/customer/shop/{order_id}")  # reuse your admin order detail page
 
 #===========================================
 #TILL HERE i changed the routes from "/checkout" to /customer/checkout
@@ -134,8 +137,8 @@ def checkout():
         subtotal = float(p["price"]) * int(qty)
         total += subtotal
         summary.append({"product": p, "qty": int(qty), "subtotal": subtotal})
-
-    return render_template("shop/checkout.html", customers=customers, summary=summary, total=total)
+#changed shop/checkout to customer/checkout
+    return render_template("/customer/checkout.html", customers=customers, summary=summary, total=total)
 
 
 
@@ -145,79 +148,12 @@ def checkout():
 
 
 
-@customer_bp.route("/cart/add/<int:product_id>", methods=["POST"])
-def cart_add(product_id):
-    cart = get_cart()
-    pid = str(product_id)
-    cart[pid] = int(cart.get(pid, 0)) + 1
-    save_cart(cart)
-    return redirect("/cart")
 
 
-@customer_bp.route("/cart/update", methods=["POST"])
-def cart_update():
-    cart = {}
-    for key, value in request.form.items():
-        # keys like qty_5
-        if key.startswith("qty_"):
-            pid = key.replace("qty_", "")
-            qty = int(value)
-            if qty > 0:
-                cart[pid] = qty
-    save_cart(cart)
-    return redirect("/cart")
-
-
-@customer_bp.route("/cart/clear", methods=["POST"])
-def cart_clear():
-    save_cart({})
-    return redirect("/cart")
-
-
-@customer_bp.route("/checkout", methods=["GET", "POST"])
-def checkout():
-    cart = get_cart()
-    if not cart:
-        return redirect("/shop")
-
-    customers = get_all_customers()
-
-    # Build cart_items for checkout function
-    cart_items = [{"product_id": int(pid), "quantity": int(qty)} for pid, qty in cart.items()]
-
-    if request.method == "POST":
-        customer_id = int(request.form["customer_id"])
-        pay_now = request.form.get("pay_now") == "on"
-        method = request.form.get("method") or "card"
-
-        order_id = create_order_checkout(
-            customer_id=customer_id,
-            cart_items=cart_items,
-            status="pending",
-            create_payment=pay_now,
-            payment_method=method
-        )
-
-        save_cart({})
-        return redirect(f"/orders/{order_id}")  # reuse your admin order detail page
 
 #===========================================
 #TILL HERE i changed the routes from "/checkout" to /customer/checkout
 # the endpoints are also changed in the html files
 
-    # show checkout summary
-    products = get_all_products()
-    product_map = {str(p["product_id"]): p for p in products}
-    summary = []
-    total = 0.0
-    for pid, qty in cart.items():
-        p = product_map.get(str(pid))
-        if not p:
-            continue
-        subtotal = float(p["price"]) * int(qty)
-        total += subtotal
-        summary.append({"product": p, "qty": int(qty), "subtotal": subtotal})
-
-    return render_template("shop/checkout.html", customers=customers, summary=summary, total=total)
-
+   
 

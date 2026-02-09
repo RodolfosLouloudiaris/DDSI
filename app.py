@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request, redirect, session
 from db import init_pool
+
+from routes.customer_routes import customer_bp
+from routes.hr_routes import humanResources_bp
+from routes.inventory_routes import shippingAndStockManagement_bp
+from routes.accounting_routes import accounting_bp
+from routes.cr_routes import customer_srvc_bp
+
 from models.product import (
     get_all_products,
     get_product_by_id,
@@ -68,6 +75,17 @@ from models.payment import (
 app = Flask(__name__)
 
 app.secret_key = "dev-secret-change-me"
+
+
+
+
+##check the prefixes if they are correct
+#Registering the bluepritns
+app.register_blueprint(customer_bp, url_prefix="/customer")
+app.register_blueprint(humanResources_bp, url_prefix="/humanResources")
+app.register_blueprint(shippingAndStockManagement_bp, url_prefix="/shippingAndStockManagement")
+app.register_blueprint(accounting_bp, url_prefix="/accounting")
+app.register_blueprint(customer_srvc_bp, url_prefix="/customerService")
 
 # ===========================
 # HOME-PAGE

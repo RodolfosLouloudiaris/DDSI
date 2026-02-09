@@ -32,7 +32,7 @@ def reviews():
 @customer_srvc_bp.route("/delete_review/<int:review_id>")
 def review_delete(review_id):
     delete_review(review_id)
-    return redirect("/list_reviews")
+    return redirect("/customerService/list_reviews")
 
 
 #make tables like chat logs

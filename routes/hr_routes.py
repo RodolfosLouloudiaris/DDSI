@@ -21,7 +21,7 @@ def add_employee_route():
             request.form["last_name"],
             request.form.get("role")
         )
-        return redirect("/list_employees")
+        return redirect("/humanResources/list_employees")
 
     return render_template("humanResources/add_employee.html")
 
@@ -35,7 +35,7 @@ def list_employees():
 @humanResources_bp.route("/delete_employee/<int:employee_id>")
 def employee_delete(employee_id):
     delete_employee(employee_id)
-    return redirect("/list_employees")
+    return redirect("/humanResources/list_employees")
 
 @humanResources_bp.route("/edit_employees/<int:employee_id>", methods=["GET", "POST"])
 def employee_edit(employee_id):
@@ -48,7 +48,7 @@ def employee_edit(employee_id):
             request.form["last_name"],
             request.form.get("role")
         )
-        return redirect("/list_employees")
+        return redirect("/humanResources/list_employees")
 
     return render_template("humanResources/edit_employee.html", employee=emp)
 

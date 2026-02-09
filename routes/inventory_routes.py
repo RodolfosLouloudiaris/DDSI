@@ -45,7 +45,7 @@ def add_shipping():
             request.form.get("delivery_date"),
             request.form.get("tracking_code")
         )
-        return redirect("/list_shipping")
+        return redirect("/shippingAndStockManagement/list_shipping")
 
     return render_template("/shippingAndStockManagement/add_shipping.html", employees=employees, orders=orders)
 
@@ -66,7 +66,7 @@ def shipping_edit(shipping_id):
             request.form.get("delivery_date"),
             request.form.get("tracking_code")
         )
-        return redirect("/list_shipping")
+        return redirect("/shippingAndStockManagement/list_shipping")
 
     return render_template("/shippingAndStockManagement/edit_shipping.html", shipping=entry, employees=employees, orders=orders)
 
@@ -74,7 +74,7 @@ def shipping_edit(shipping_id):
 @shippingAndStockManagement_bp.route("/delete_shipping/<int:shipping_id>", methods=["POST"])
 def shipping_delete(shipping_id):
     delete_shipping(shipping_id)
-    return redirect("/list_shipping")
+    return redirect("/shippingAndStockManagement/list_shipping")
 
 
 @shippingAndStockManagement_bp.route("/list_shipping")
@@ -122,7 +122,8 @@ def stock_edit(movement_id):
             request.form["quantity"],
             request.form.get("reason")
         )
-        return redirect("/stock")
+        #This might be wrong check later
+        return redirect("/shippingAndStockManagement/list_stock")
 
     return render_template(
         "shippingAndStockManagement/edit_stock.html",
