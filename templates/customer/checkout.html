@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- I am not sure whether Niklas completed the checkout functionality
+ Same thing with review
+ I dont see any -->
+<h2>✅ Checkout</h2>
+
+<h3>Order summary</h3>
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Product</th>
+    <th>Qty</th>
+    <th>Subtotal</th>
+  </tr>
+  {% for it in summary %}
+  <tr>
+    <td>{{ it.product.name }}</td>
+    <td>{{ it.qty }}</td>
+    <td>{{ it.subtotal }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>Total: {{ total }}</h3>
+
+<hr>
+
+<form method="post">
+  <label>Customer:</label><br>
+  <select name="customer_id" required>
+    {% for c in customers %}
+      <option value="{{ c.customer_id }}">{{ c.first_name }} {{ c.last_name }} ({{ c.email }})</option>
+    {% endfor %}
+  </select>
+
+  <br><br>
+
+  <label>
+    <input type="checkbox" name="pay_now">
+    Pay now (create Payment record)
+  </label>
+
+  <br><br>
+
+  <label>Method:</label><br>
+  <input name="method" placeholder="card, paypal, cash" value="card">
+
+  <br><br>
+  <button type="submit">Place order</button>
+</form>
+
+{% endblock %}

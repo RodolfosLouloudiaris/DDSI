@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Shipping Records</h2>
+
+<a href="/shipping/add">➕ Add Shipping Entry</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Order</th>
+        <th>Employee</th>
+        <th>Shipped At</th>
+        <th>Delivered</th>
+        <th>Tracking</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for s in shipping %}
+    <tr>
+        <td>{{ s.shipping_id }}</td>
+        <td>{{ s.order_id }}</td>
+        <td>{{ s.employee_id }}</td>
+        <td>{{ s.shipped_at }}</td>
+        <td>{{ s.delivery_date }}</td>
+        <td>{{ s.tracking_code }}</td>
+        <td>
+            <a href="/shippingAndStockManagement/edit_shipping/{{ s.shipping_id }}">✏ Edit</a> |
+            <a href="/shippingAndStockManagement/delete_shipping/{{ s.shipping_id }}" onclick="return confirm('Delete this entry?')">🗑 Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

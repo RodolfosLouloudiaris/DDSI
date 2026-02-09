@@ -128,6 +128,8 @@ def product_delete(product_id):
     delete_product(product_id)
     return redirect("/products")
 
+##remove all except list categories
+
 
 # ======================================
 # LIST CATEGORIES
@@ -231,6 +233,7 @@ def customer_delete(customer_id):
 # ==========================================
 # LIST EMPLOYEES
 # ==========================================
+#changed the employees to employee_list
 @app.route("/employees")
 def employees():
     items = get_all_employees()
@@ -425,6 +428,7 @@ def review_add():
 
     return render_template("reviews/add.html", products=products, customers=customers)
 
+#I might put this on customer service later
 # ==========================================
 # EDIT REVIEW
 # ==========================================
@@ -536,6 +540,8 @@ def payment_add():
             request.form["amount"],
             request.form["method"]
         )
+
+
         return redirect("/payments")
 
     return render_template("payments/add.html", unpaid_orders=unpaid_orders)
@@ -573,7 +579,11 @@ def save_cart(cart):
     session["cart"] = cart
     session.modified = True
 
-@app.route("/shop")
+
+#============================================================
+#FROM HERE
+
+@app.route("/customer/shop")
 def shop():
     categories = get_all_categories()
     products = get_all_products()
@@ -583,10 +593,12 @@ def shop():
     if category_id:
         products = [p for p in products if str(p["category_id"]) == str(category_id)]
 
-    return render_template("shop/shop.html", categories=categories, products=products)
+    return render_template("/customer/shop.html", categories=categories, products=products)
 
+#changed the route from cart to customer cart lets see if this breaks anything
 
-@app.route("/cart")
+    
+@app.route("/customer/cart")
 def cart_view():
     cart = get_cart()
     products = get_all_products()
@@ -603,19 +615,19 @@ def cart_view():
         total += subtotal
         items.append({"product": p, "qty": int(qty), "subtotal": subtotal})
 
-    return render_template("shop/cart.html", items=items, total=total)
+    return render_template("/customer/cart.html", items=items, total=total)
 
 
-@app.route("/cart/add/<int:product_id>", methods=["POST"])
+@app.route("/customer/cart/add/<int:product_id>", methods=["POST"])
 def cart_add(product_id):
     cart = get_cart()
     pid = str(product_id)
     cart[pid] = int(cart.get(pid, 0)) + 1
     save_cart(cart)
-    return redirect("/cart")
+    return redirect("/customer/cart")
 
 
-@app.route("/cart/update", methods=["POST"])
+@app.route("/customer/cart/update", methods=["POST"])
 def cart_update():
     cart = {}
     for key, value in request.form.items():
@@ -626,20 +638,20 @@ def cart_update():
             if qty > 0:
                 cart[pid] = qty
     save_cart(cart)
-    return redirect("/cart")
+    return redirect("/customer/cart")
 
 
-@app.route("/cart/clear", methods=["POST"])
+@app.route("/customer/cart/clear", methods=["POST"])
 def cart_clear():
     save_cart({})
-    return redirect("/cart")
+    return redirect("/customer/cart")
 
 
-@app.route("/checkout", methods=["GET", "POST"])
+@app.route("/customer/checkout", methods=["GET", "POST"])
 def checkout():
     cart = get_cart()
     if not cart:
-        return redirect("/shop")
+        return redirect("/customer/shop")
 
     customers = get_all_customers()
 
@@ -662,6 +674,10 @@ def checkout():
         save_cart({})
         return redirect(f"/orders/{order_id}")  # reuse your admin order detail page
 
+#===========================================
+#TILL HERE i changed the routes from "/checkout" to /customer/checkout
+# the endpoints are also changed in the html files
+
     # show checkout summary
     products = get_all_products()
     product_map = {str(p["product_id"]): p for p in products}
@@ -682,7 +698,7 @@ def checkout():
 #====================================================#
 #====================================================#
 
-
+#added all the endpoints for the customer service and human resources here, as well some of the client endpoints. I will add more later, but this is a good start for now.
 
 # Customer Service endpoints
 @app.route("/customerService/list_reviews")
@@ -703,6 +719,7 @@ def list_client_complaints():
 @app.route("/customerService/read_chat_logs")
 def read_chat_logs():
     return render_template("customerService/read-chat-logs.html")
+
 
 ## here for the human resources
 
@@ -734,9 +751,151 @@ def customer_make_order():
     return render_template("customer/make-order.html")
 
 
+@app.route("/customer/shop")
+def shop():
+    categories = get_all_categories()
+    products = get_all_products()
+
+    # optional filter: /shop?category_id=2
+    category_id = request.args.get("category_id")
+    if category_id:
+        products = [p for p in products if str(p["category_id"]) == str(category_id)]
+
+    return render_template("customer/shop.html", categories=categories, products=products)
+
+
+
+
  # add more endpoints later
 
-  
+
+#==================================== I COPIED THE CODE AND CHANGED THE ROUTES TO FIT THE NEW STRUCTURE, I WILL ADD MORE ENDPOINTS LATER, BUT THIS IS A GOOD START FOR NOW. ==========================
+
+
+
+
+ ## here for the shipping and stock management
+ #+++++++====================================
+ # ADD SHIPPING
+@app.route("/shippingAndStockManagement/add_shipping", methods=["GET", "POST"])
+def add_shipping():
+    employees = get_all_employees()
+    orders = get_all_orders()     
+
+    if request.method == "POST":
+        add_shipping(
+            request.form["order_id"],
+            request.form["employee_id"],
+            request.form.get("shipped_at"),
+            request.form.get("delivery_date"),
+            request.form.get("tracking_code")
+        )
+        return redirect("/shipping")
+
+    return render_template("shipping/add.html", employees=employees, orders=orders)
+
+
+#delete shipping
+
+@app.route("/shippingAndStockManagement/delete_shipping/<int:shipping_id>", methods=["POST"])
+def shipping_delete(shipping_id):
+    delete_shipping(shipping_id)
+    return redirect("/shippingAndStockManagement/list_shipping")
+
+
+
+# ==========================================
+# EDIT SHIPPING ENTRY
+# ==========================================
+@app.route("/shippingAndStockManagement/edit_shipping/<int:shipping_id>", methods=["GET", "POST"])
+def shipping_edit(shipping_id):
+    entry = get_shipping_by_id(shipping_id)
+    employees = get_all_employees()
+    orders = get_all_orders()
+
+    if request.method == "POST":
+        update_shipping(
+            shipping_id,
+            request.form["order_id"],
+            request.form["employee_id"],
+            request.form.get("shipped_at"),
+            request.form.get("delivery_date"),
+            request.form.get("tracking_code")
+        )
+        return redirect("/shippingAndStockManagement/list_shipping")
+
+    return render_template("/shippingAndStockManagement/edit_shipping.html", shipping=entry, employees=employees, orders=orders)
+
+
+
+# ==========================================
+# LIST SHIPPING ENTRIES
+# ==========================================
+@app.route("/shippingAndStockManagement/list_shipping")
+def shipping():
+    items = get_all_shipping()
+    return render_template("shippingAndStockManagement/list_shipping.html", shipping=items)
+
+##ADD STOCK
+@app.route("/shippingAndStockManagement/add_stock", methods=["GET", "POST"])
+def stock_add():
+    products = get_all_products()
+    employees = get_all_employees()
+
+    if request.method == "POST":
+        add_stock_movement(
+            request.form["product_id"],
+            request.form["employee_id"],
+            request.form["quantity"],
+            request.form.get("reason")
+        )
+        return redirect("/shippingAndStockManagement/list_stock")
+
+    return render_template("shippingAndStockManagement/add_stock.html", products=products, employees=employees)
+
+
+##delete stock
+#change this to delete stock i think bc its just edit
+@app.route("/shippingAndStockManagement/delete_stock/<int:movement_id>")
+def stock_delete(movement_id):
+    delete_stock_movement(movement_id)
+    return redirect("/shippingAndStockManagement/list_stock")
+
+## modify stock
+@app.route("/shippingAndStockManagement/edit_stock/<int:movement_id>", methods=["GET", "POST"])
+def stock_edit(movement_id):
+    movement = get_stock_movement_by_id(movement_id)
+    products = get_all_products()
+    employees = get_all_employees()
+
+    if request.method == "POST":
+        update_stock_movement(
+            movement_id,
+            request.form["product_id"],
+            request.form["employee_id"],
+            request.form["quantity"],
+            request.form.get("reason")
+        )
+        return redirect("/stock")
+
+    return render_template(
+        "shippingAndStockManagement/edit_stock.html",
+        movement=movement,
+        products=products,
+        employees=employees
+    )
+
+
+
+# LIST STOCK MOVEMENTS
+# ==========================================
+@app.route("/shippingAndStockManagement/list_stock")
+def stock():
+    items = get_all_stock_movements()
+    return render_template("shippingAndStockManagement/list_stock.html", movements=items)
+
+
+
 # here for the accounting
 
 

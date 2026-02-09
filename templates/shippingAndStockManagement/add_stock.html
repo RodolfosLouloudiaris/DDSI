@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add Stock Movement</h2>
+
+<form method="post">
+
+    <label>Product:</label><br>
+    <select name="product_id" required>
+        {% for p in products %}
+            <option value="{{ p.product_id }}">{{ p.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Employee:</label><br>
+    <select name="employee_id" required>
+        {% for e in employees %}
+            <option value="{{ e.employee_id }}">{{ e.first_name }} {{ e.last_name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Quantity:</label><br>
+    <input type="number" name="quantity" required><br><br>
+
+    <label>Reason:</label><br>
+    <input name="reason"><br><br>
+
+    <button type="submit">Add Movement</button>
+</form>
+
+{% endblock %}

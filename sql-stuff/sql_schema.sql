@@ -147,3 +147,5 @@ CREATE TABLE Review (
         FOREIGN KEY (customer_id)
         REFERENCES Customer(customer_id)
 );
+
+

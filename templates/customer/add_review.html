@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add Review</h2>
+
+<form method="post">
+
+    <label>Product:</label><br>
+    <select name="product_id" required>
+        {% for p in products %}
+            <option value="{{ p.product_id }}">{{ p.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Customer:</label><br>
+    <select name="customer_id" required>
+        {% for c in customers %}
+            <option value="{{ c.customer_id }}">{{ c.first_name }} {{ c.last_name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Rating (1–5):</label><br>
+    <input type="number" name="rating" min="1" max="5" required><br><br>
+
+    <label>Comment:</label><br>
+    <textarea name="comment"></textarea><br><br>
+
+    <button type="submit">Add Review</button>
+</form>
+
+{% endblock %}
