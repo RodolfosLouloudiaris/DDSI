@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Payment</h2>
+
+<p>Order: <b>{{ payment.order_id }}</b></p>
+
+<form method="post">
+    <label>Amount:</label><br>
+    <input type="number" name="amount" step="0.01" min="0" value="{{ payment.amount }}" required><br><br>
+
+    <label>Method:</label><br>
+    <input name="method" value="{{ payment.method }}" required><br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

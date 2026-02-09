@@ -26,8 +26,9 @@
         <td>{{ r.comment }}</td>
         <td>{{ r.created_at }}</td>
         <td>
-            <a href="/reviews/edit/{{ r.review_id }}">✏ Edit</a> |
-            <a href="/reviews/delete/{{ r.review_id }}" onclick="return confirm('Delete review?')">🗑 Delete</a>
+            <!-- changed from /reviews to customerService/edit_reviews-->
+            <a href="/customerService/edit_reviews/{{ r.review_id }}">✏ Edit</a> |
+            <a href="/customerService/delete_review/{{ r.review_id }}" onclick="return confirm('Delete review?')">🗑 Delete</a>
         </td>
     </tr>
     {% endfor %}

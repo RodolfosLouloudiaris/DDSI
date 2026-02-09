@@ -1,7 +1,7 @@
 #this is the customer service routes file
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template
 from models.customer import get_all_customers
-from models.review import get_all_reviews
+from models.review import delete_review, get_all_reviews
 
 
 customer_srvc_bp = Blueprint("customerService", __name__)
@@ -27,6 +27,12 @@ def customers():
 def reviews():
     items = get_all_reviews()
     return render_template("/customerService/list_reviews.html", reviews=items)
+
+
+@customer_srvc_bp.route("/delete_review/<int:review_id>")
+def review_delete(review_id):
+    delete_review(review_id)
+    return redirect("/list_reviews")
 
 
 #make tables like chat logs
