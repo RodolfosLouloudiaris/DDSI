@@ -143,24 +143,6 @@ def checkout():
 ######################################################
 ############
 
-@customer_bp.route("/cart")
-def cart_view():
-    cart = get_cart()
-    products = get_all_products()
-    product_map = {str(p["product_id"]): p for p in products}
-
-    items = []
-    total = 0.0
-
-    for pid, qty in cart.items():
-        p = product_map.get(str(pid))
-        if not p:
-            continue
-        subtotal = float(p["price"]) * int(qty)
-        total += subtotal
-        items.append({"product": p, "qty": int(qty), "subtotal": subtotal})
-
-    return render_template("/cart.html", items=items, total=total)
 
 
 @customer_bp.route("/cart/add/<int:product_id>", methods=["POST"])
