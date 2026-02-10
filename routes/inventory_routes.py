@@ -5,21 +5,23 @@
 
 #i think there are issues with the redirects or the urls in the templates or generally in the way they are connected
 
-from flask import Blueprint, app, redirect, render_template, request
+from flask import Blueprint, redirect, render_template, request
 
 from models.shipping import (
     delete_shipping,
-    get_all_employees,
-    get_all_orders,
+
     add_shipping,
     get_all_shipping,
     get_shipping_by_id,
     update_shipping
 )
 
+from models.employee import get_all_employees
+from models.order import get_all_orders
+from models.product import get_all_products
+
 from models.stock import (
     delete_stock_movement,
-    get_all_products,
     add_stock_movement,
     get_all_stock_movements,
     get_stock_movement_by_id,

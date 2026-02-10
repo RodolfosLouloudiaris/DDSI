@@ -142,18 +142,14 @@ def checkout():
 
 
 
-#############################333
-######################################################
-############
-
-
-
-
-
-
-#===========================================
-#TILL HERE i changed the routes from "/checkout" to /customer/checkout
-# the endpoints are also changed in the html files
-
+## added the add review route here
+    
+@customer_bp.route("/reviews/add/<int:product_id>", methods=["GET", "POST"])
+def add_review(product_id):
+    if request.method == "POST":
+        rating = int(request.form["rating"])
+        comment = request.form["comment"]
+        add_review(product_id, rating, comment)
+        return redirect(f"/customer/shop/{product_id}")
+    return render_template("/customer/add_review.html", product_id=product_id)
    
-
