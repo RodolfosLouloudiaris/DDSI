@@ -20,7 +20,7 @@ from models.category import  get_all_categories
 customer_bp = Blueprint("customer", __name__)
 
 
-@customer_bp.route('/')
+@customer_bp.route("/")
 def index():
     return render_template("customer.html")
 

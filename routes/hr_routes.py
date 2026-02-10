@@ -12,7 +12,7 @@ from models.employee import (
 humanResources_bp = Blueprint("humanResources", __name__)
 
 
-humanResources_bp.route('/')
+@humanResources_bp.route('/')
 def index():
     return render_template("humanResources.html")
 
