@@ -11,6 +11,12 @@ from models.payment import *
 
 accounting_bp = Blueprint("accounting", __name__)
 
+
+@accounting_bp.route('/')
+def index():
+    return render_template("accounting.html")
+
+
 @accounting_bp.route("/list_payments")
 def payments():
     items = get_all_payments()

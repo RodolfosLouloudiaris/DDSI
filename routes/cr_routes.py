@@ -7,7 +7,9 @@ from models.review import delete_review, get_all_reviews
 customer_srvc_bp = Blueprint("customerService", __name__)
 
 
-
+@customer_srvc_bp.route("/")
+def index():
+    return render_template("customerService.html")
 
 #LIST CUSTOMERS
 @customer_srvc_bp.route("/list_clients")

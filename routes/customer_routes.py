@@ -19,6 +19,11 @@ from models.category import  get_all_categories
 #it should be running. If not check if the routes are correct and serve the correct purpose
 customer_bp = Blueprint("customer", __name__)
 
+
+@customer_bp.route('/')
+def index():
+    return render_template("customer.html")
+
 def get_cart():
     return session.get("cart", {})  # {product_id(str): quantity(int)}
 

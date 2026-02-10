@@ -32,6 +32,11 @@ shippingAndStockManagement_bp = Blueprint("shippingAndStockManagement", __name__
 
 
 
+@shippingAndStockManagement_bp.route('/')
+def index():
+    return render_template("shippingAndStockManagement.html")
+
+
 #SHIPPING
 
 @shippingAndStockManagement_bp.route("/add_shipping", methods=["GET", "POST"])

@@ -52,7 +52,7 @@ app.register_blueprint(customer_srvc_bp, url_prefix="/customerService")
 # ===========================
 @app.route("/")
 def index():
-    return render_template("dashboard.html")
+    return render_template("base.html")
 
 # ===========================
 # LIST ALL PRODUCTS

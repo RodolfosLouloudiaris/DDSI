@@ -12,6 +12,9 @@ from models.employee import (
 humanResources_bp = Blueprint("humanResources", __name__)
 
 
+humanResources_bp.route('/')
+def index():
+    return render_template("humanResources.html")
 
 @humanResources_bp.route("/add_employee")
 def add_employee_route():
