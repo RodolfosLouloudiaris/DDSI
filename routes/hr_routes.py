@@ -35,7 +35,7 @@ def list_employees():
     items = get_all_employees()
     return render_template("/humanResources/list_employees.html", employees=items)
 
-@humanResources_bp.route("/delete_employee/<int:employee_id>")
+@humanResources_bp.route("/delete_employees/<int:employee_id>")
 def employee_delete(employee_id):
     delete_employee(employee_id)
     return redirect("/humanResources/list_employees")
@@ -53,7 +53,7 @@ def employee_edit(employee_id):
         )
         return redirect("/humanResources/list_employees")
 
-    return render_template("humanResources/edit_employee.html", employee=emp)
+    return render_template("humanResources/edit_employees.html", employee=emp)
 
 
 #these need new tables and sql stufff
