@@ -37,28 +37,12 @@
 
 <div class="dashboard-grid">
 
-   <!-- <div class="card">
-        <a href="{{ url_for('accounting.list_payments') }}">View list of payments</a>
-        <p></p>
-    </div>
--->
-
+   
     <div class="card">
-        <a href="{{ url_for('accounting.add_payment') }}">Add a payment</a>
+        <a href="{{ url_for('accounting.payments') }}">Manage payments</a>
         <p></p>
     </div>
-
-    <div class="card">
-        <a href="{{ url_for('accounting.remove_payment') }}">Remove a payment</a>
-        <p></p>
-    </div>
-
-    <div class="card">
-        <a href="{{ url_for('accounting.edit_payments') }}">Edit a payment</a>
-        <p></p>
-    </div>
-
-
+  
 </div>
 
 {% endblock %}

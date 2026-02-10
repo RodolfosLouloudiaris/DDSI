@@ -37,25 +37,13 @@
 
 <div class="dashboard-grid">
 
+   
     <div class="card">
-        <a href="/customerService/add_employee">Add a new employee</a>
-        <p>Add a recently hired employee to the system</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF6">Delete an employee</a>
-        <p>Remove a recently fired employee from the system</p>
-    </div>
-
-    <div class="card">
-        <a href="/employees/list">View employees list</a>
+        <a href="{{ url_for('humanResources.list_employees') }}">Manage employees</a>
         <p>view list of employees</p>
     </div>
 
-    <div class="card">
-        <a href="/RF8">View employees' complaints</a>
-        <p>View list of employees' complaints</p>
-    </div>
+    
 
 </div>
 

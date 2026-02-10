@@ -38,48 +38,13 @@
 <div class="dashboard-grid">
 
     <div class="card">
-        <a href="/RF1">RF1</a>
-        <p>Functional Requirement 1</p>
+        <a href="{{ url_for('shippingAndStockManagement.shipping') }}">manage shipping</a>
+        <p>Add edit delete shipping</p>
     </div>
-
-    <div class="card">
-        <a href="/RF2">RF2</a>
-        <p>Functional Requirement 2</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF3">RF3</a>
-        <p>Functional Requirement 3</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF4">RF4</a>
-        <p>Functional Requirement 4</p>
-    </div>
-
-
-    <div class="card">
-        <a href="/RF5">RF5</a>
-        <p>Functional Requirement 5</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF6">RF6</a>
-        <p>Functional Requirement 6</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF7">RF7</a>
-        <p>Functional Requirement 7</p>
-    </div>
-
-    <div class="card">
-        <a href="/RF8">RF8</a>
-        <p>Functional Requirement 8</p>
-    </div>
-
   
-
+    <div class="card">
+        <a href="{{ url_for('shippingAndStockManagement.stock') }}">manage stock</a>
+        <p>Add edit delete stock</p>
 </div>
 
 {% endblock %}

@@ -39,24 +39,17 @@
 
     
     <div class="card">
-        <a href="/customerService/list_reviews">Product reviews</a>
+        <a href="{{ url_for('customerService.reviews') }}">Product reviews</a>
         <p>View customer reviews on products</p>
     </div>                                                          
 
     <div class="card">
-        <a href="/customerService/list_clients">Customer list</a>
+        <a href="{{ url_for('customerService.customers') }}">Customer list</a>
         <p>View customer details and information</p>
     </div>
 
-    <div class="card">
-        <a href="/customerService/list_client_complaints">Customer complaints</a>
-        <p>View customer complaints</p>
-    </div>
+  
 
-    <div class="card">
-        <a href="/customerService/read_chat_logs">Customer chat logs</a>
-        <p>Read customer chat logs</p>
-    </div>
 
 </div>
 
