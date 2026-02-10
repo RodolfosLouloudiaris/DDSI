@@ -44,13 +44,13 @@
     </div>
 
     <div class="card">
-        <a href="/customer/add_review">Add a review</a>
+        <a href="{{ url_for('customer.add_review', product_id=1) }}">Add a review</a>
         <p>Write a review for a product</p>
     </div>
 
 
     <div class="card">
-        <a href="/customer/view_cart">View Cart</a>
+        <a href="{{ url_for('customer.cart') }}">View Cart</a>
         <p>View and manage items in your cart</p>
     </div>
 

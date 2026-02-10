@@ -50,7 +50,7 @@ def shop():
 
     
 @customer_bp.route("/cart")
-def cart_view():
+def cart():
     cart = get_cart()
     products = get_all_products()
     product_map = {str(p["product_id"]): p for p in products}

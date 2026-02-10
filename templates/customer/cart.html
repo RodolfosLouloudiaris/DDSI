@@ -4,9 +4,9 @@
 <h2>🧺 Cart</h2>
 
 {% if not items %}
-  <p>Cart is empty. <a href="/customer/shop">Go shopping</a></p>
+  <p>Cart is empty. <a href="{{ url_for('customer.shop') }}">Go shopping</a></p>
 {% else %}
-<form method="post" action="/customer/cart/update">
+<form method="post" action="{{ url_for('customer.cart_update') }}">
   <table border="1" cellpadding="8">
     <tr>
       <th>Product</th>
@@ -31,12 +31,12 @@
   <button type="submit">Update cart</button>
 </form>
 
-<form method="post" action="/customer/cart/clear" style="margin-top:10px;">
+<form method="post" action="{{ url_for('customer.cart_clear') }}" style="margin-top:10px;">
   <button type="submit">Clear cart</button>
 </form>
 
 <br>
-<a href="/customer/checkout">✅ Checkout</a> | <a href="/customer/shop">Continue shopping</a>
+<a href="{{ url_for('customer.checkout') }}">✅ Checkout</a> | <a href="{{ url_for('customer.shop') }}">Continue shopping</a>
 {% endif %}
 
 {% endblock %}

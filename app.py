@@ -267,9 +267,6 @@ def order_delete(order_id):
 
 
 
-
-
-
 if __name__ == "__main__":
     init_pool()
     app.run(debug=True, use_reloader=False)
