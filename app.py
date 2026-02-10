@@ -87,6 +87,9 @@ app.register_blueprint(shippingAndStockManagement_bp, url_prefix="/shippingAndSt
 app.register_blueprint(accounting_bp, url_prefix="/accounting")
 app.register_blueprint(customer_srvc_bp, url_prefix="/customerService")
 
+
+
+
 # ===========================
 # HOME-PAGE
 # ===========================
