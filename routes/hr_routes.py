@@ -16,7 +16,7 @@ humanResources_bp = Blueprint("humanResources", __name__)
 def index():
     return render_template("humanResources.html")
 
-@humanResources_bp.route("/add_employee")
+@humanResources_bp.route("/add_employee", methods=["GET", "POST"])
 def add_employee_route():
     if request.method == "POST":
         add_employee(
