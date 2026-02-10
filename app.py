@@ -164,7 +164,7 @@ def customer_add():
             request.form.get("phone"),
             request.form.get("address")
         )
-        return redirect("/customers")
+        return redirect("/customerService/list_clients")
 
     return render_template("customers/add.html")
 
@@ -184,9 +184,9 @@ def customer_edit(customer_id):
             request.form.get("phone"),
             request.form.get("address")
         )
-        return redirect("/customers")
+        return redirect("/customerService/list_clients")
 
-    return render_template("customers/edit.html", customer=customer)
+    return render_template("customerService/list_clients.html", customer=customer)
 
 # ==========================================
 # DELETE CUSTOMER
@@ -196,9 +196,8 @@ def customer_delete(customer_id):
     try:
         delete_customer(customer_id)
     except Exception:
-        # optional: show a friendly error
         print("Cannot delete customer — existing orders.")
-    return redirect("/customers")
+    return redirect("/customerService/list_clients")
 
 
 

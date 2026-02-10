@@ -3,7 +3,7 @@
 
 <h2>Employees</h2>
 
-<a href="/humanResources/list_employees">➕ Add Employee (I think this lists employees)</a>
+<a href="/humanResources/add_employee">➕ Add Employee</a>
 <br><br>
 
 <table border="1" cellpadding="8">
@@ -20,8 +20,8 @@
         <td>{{ e.first_name }} {{ e.last_name }}</td>
         <td>{{ e.role }}</td>
         <td>
-            <a href="/humanResources/edit_employees/{{ e.employee_id }}">✏ Edit</a> |
-            <a href="/humanResources/delete_employee/{{ e.employee_id }}" onclick="return confirm('Delete employee?')">🗑 Delete</a>
+            <a href="{{ url_for('employee_edit', employee_id=e.employee_id) }}">✏ Edit</a> |
+            <a href="{{ url_for('employee_delete', employee_id=e.employee_id) }}" onclick="return confirm('Delete employee?')">🗑 Delete</a>
         </td>
     </tr>
     {% endfor %}

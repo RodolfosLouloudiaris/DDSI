@@ -4,7 +4,7 @@
 
 <h2>Payments</h2>
 
-<a href="{{ url_for('accounting.add_payment') }}">➕ Add Payment</a>
+<a href="{{ url_for('accounting.payment_add') }}">➕ Add Payment</a>
 <br><br>
 
 <table border="1" cellpadding="8">
@@ -25,8 +25,8 @@
         <td>{{ p.method }}</td>
         <td>{{ p.paid_at }}</td>
         <td>
-            <a href="/accounting/edit_payments/{{ p.payment_id }}">✏ Edit</a> |
-            <a href="/accounting/delete_payment/{{ p.payment_id }}" onclick="return confirm('Delete payment?')">🗑 Delete</a>
+            <a href="/accounting/edit_payment/{{ p.payment_id }}">✏ Edit</a> |
+            <a href="{{ url_for('accounting.payment_delete', payment_id=p.payment_id) }}" onclick="return confirm('Delete payment?')">🗑 Delete</a>
         </td>
     </tr>
     {% endfor %}

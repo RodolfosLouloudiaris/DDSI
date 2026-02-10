@@ -44,7 +44,7 @@ def payment_add():
 # ==========================================
 # EDIT PAYMENT
 # ==========================================
-@accounting_bp.route("/payments/edit/<int:payment_id>", methods=["GET", "POST"])
+@accounting_bp.route("/edit_payment/<int:payment_id>", methods=["GET", "POST"])
 def payment_edit(payment_id):
     pay = get_payment_by_id(payment_id)
 
@@ -64,4 +64,4 @@ def payment_edit(payment_id):
 @accounting_bp.route("/delete_payment<int:payment_id>")
 def payment_delete(payment_id):
     delete_payment(payment_id)
-    return redirect("/accounting/ist_payments")
+    return redirect("/accounting/list_payments")

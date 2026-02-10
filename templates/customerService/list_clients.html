@@ -3,7 +3,7 @@
 
 <h2>Customers</h2>
 
-<a href="/customers/list">➕ Add Customer (i think this lists the customers)</a>
+<a href="{{ url_for('customer_add') }}">➕ Add Customer</a>
 <br><br>
 
 <table border="1" cellpadding="8">
@@ -22,8 +22,7 @@
         <td>{{ c.email }}</td>
         <td>{{ c.phone }}</td>
         <td>
-            <a href="/customers/edit/{{ c.customer_id }}">✏ Edit</a> |
-            <a href="/customers/delete/{{ c.customer_id }}" onclick="return confirm('Delete customer?')">🗑 Delete</a>
+            <a href="{{ url_for('customer_delete', customer_id=c.customer_id) }}" onclick="return confirm('Delete customer?')">🗑 Delete</a>
         </td>
     </tr>
     {% endfor %}
